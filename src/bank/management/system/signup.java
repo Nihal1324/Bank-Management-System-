@@ -6,12 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.util.Random;
 
 
 public class signup extends JFrame implements ActionListener {
     JRadioButton R1,R2 ,R3,R4;
-    JTextField textName ,textFName, textFEmail , textFAddress  , textFCity, textFState, textFPinCode;
+    JTextField textName ,textFName, textFEmail , textFAddress  , textFCity, textFState, textFPinCode , textContact;
     JDateChooser dateChooser;
     JButton next;
     Random ran= new Random();
@@ -141,8 +142,8 @@ public class signup extends JFrame implements ActionListener {
         add(R4);
 
         ButtonGroup btngrp1= new ButtonGroup();
-        btngrp.add(R4);
-        btngrp.add(R3);
+        btngrp1.add(R4);
+        btngrp1.add(R3);
 
         JLabel labelCity=new JLabel("City:");
         labelCity.setFont(new Font("Raleway",Font.BOLD,15));
@@ -174,11 +175,11 @@ public class signup extends JFrame implements ActionListener {
         labelPhoneNO.setBounds(30,320,200,18);
         add(labelPhoneNO);
 
-        textFState=new JTextField();
-        textFState.setForeground(Color.black);
-        textFState.setBounds(170,320,200,16);
-        textFState.setBackground(Color.white);
-        add(textFState);
+        textContact=new JTextField();
+        textContact.setForeground(Color.black);
+        textContact.setBounds(170,320,200,16);
+        textContact.setBackground(Color.white);
+        add(textContact);
 
         JLabel labelPinCode=new JLabel("Pincode:");
         labelPinCode.setFont(new Font("Raleway",Font.BOLD,15));
@@ -217,6 +218,50 @@ public class signup extends JFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e){
+
+        String formno=first;
+        String name= textName.getText();
+        String FName=textFName.getText();
+        String dob= ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText();
+        String gender = null;
+        if(R1.isSelected()){
+            gender="Male";
+        }
+        else if (R2.isSelected()){
+            gender="Female";
+        }
+        String email=textFEmail.getText();
+        String MarriedStat = null;
+        if(R3.isSelected()){
+            MarriedStat="Married";
+
+        }
+        else if(R4.isSelected()){
+            MarriedStat="Unmarried";
+        }
+        String address= textFAddress.getText();
+        String city=textFCity.getText();
+        String state=textFState.getText();
+
+        String contact = textContact.getText();
+        String pincode=textFPinCode.getText();
+
+        try{
+
+            if(name.equals("")||FName.equals("")||dob.equals("")||gender.equals(null)||email.equals("")||address.equals("")||MarriedStat.equals(null)||city.equals("")||state.equals("")||contact.equals("")||pincode.equals("")){
+                JOptionPane.showMessageDialog(null,"Fill all the fields!!");
+            }
+            else{
+                Con con1=new Con();
+                String q="insert into signup values('"+formno+"','"+name+"','"+FName+"','"+dob+"','"+gender+"','"+email+"','"+address+"','"+MarriedStat+"','"+city+"','"+state+"','"+contact+"','"+pincode+"')";
+                con1.statement.executeUpdate(q);
+                new signup2(first);
+                setVisible(false);
+            }
+        }
+        catch(Exception E){
+            E.printStackTrace();
+        }
 
     }
     public static void main(String [] args){
