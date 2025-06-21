@@ -88,7 +88,8 @@ public class Login extends JFrame implements ActionListener {//JFrame comes from
 
          }
          else if(e.getSource()==btn2){
-
+                 setVisible(false); // Hide login window
+                 new signup();      // Open signup window
          }
          else {
            textfield1.setText("");
@@ -96,7 +97,7 @@ public class Login extends JFrame implements ActionListener {//JFrame comes from
            }
        }
        catch(Exception E){
-
+           E.printStackTrace();
          }
      }
     public static void main(String[] args){
